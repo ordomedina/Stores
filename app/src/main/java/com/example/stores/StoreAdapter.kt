@@ -44,5 +44,6 @@ class StoreAdapter(private var stores: MutableList<Store>, private var listener:
 
     fun add(store: Store) {
         stores.add(store)
+        notifyDataSetChanged() //El adaptador refresca toda la vista
     }
 }
