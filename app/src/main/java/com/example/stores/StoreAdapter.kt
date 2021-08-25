@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.stores.databinding.ItemStoreBinding
 
-class StoreAdapter(private var stores: MutableList<Store>, private var listener: OnClickListener) :
+class StoreAdapter(private var stores: MutableList<StoreEntity>, private var listener: OnClickListener) :
     RecyclerView.Adapter<StoreAdapter.ViewHolder>(){
 
     private lateinit var mContext: Context
@@ -15,8 +15,8 @@ class StoreAdapter(private var stores: MutableList<Store>, private var listener:
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
         val bindig = ItemStoreBinding.bind(view)
 
-        fun setListener(store:Store){
-            bindig.root.setOnClickListener{listener.onClick(store)}
+        fun setListener(storeEntity:StoreEntity){
+            bindig.root.setOnClickListener{listener.onClick(storeEntity)}
         }
     }
 
@@ -42,8 +42,8 @@ class StoreAdapter(private var stores: MutableList<Store>, private var listener:
         return stores.size
     }
 
-    fun add(store: Store) {
-        stores.add(store)
+    fun add(storeEntity: StoreEntity) {
+        stores.add(storeEntity)
         notifyDataSetChanged() //El adaptador refresca toda la vista
     }
 }
