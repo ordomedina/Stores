@@ -41,4 +41,8 @@ class StoreAdapter(private var stores: MutableList<Store>, private var listener:
     override fun getItemCount(): Int {
         return stores.size
     }
+
+    fun add(store: Store) {
+        stores.add(store)
+    }
 }
