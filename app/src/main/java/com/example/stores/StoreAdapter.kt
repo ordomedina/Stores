@@ -16,8 +16,12 @@ class StoreAdapter(private var stores: MutableList<StoreEntity>, private var lis
         val bindig = ItemStoreBinding.bind(view)
 
         fun setListener(storeEntity:StoreEntity){
-            bindig.root.setOnClickListener{listener.onClick(storeEntity)}
 
+            with(bindig.root){
+                setOnClickListener{listener.onClick(storeEntity)}
+                setOnLongClickListener {listener.onDeleteStore(storeEntity)
+                    true  }
+            }
             bindig.cbFavorite.setOnClickListener{listener.onFavoriteStore(storeEntity)}
         }
     }
@@ -60,6 +64,14 @@ class StoreAdapter(private var stores: MutableList<StoreEntity>, private var lis
         if(index != -1){ //El -1 significa que lo ha encontrado.
             stores.set(index, storeEntity)
             notifyItemChanged(index) //Refresca solamente el item que se ha actualizado.
+        }
+    }
+
+    fun delete(storeEntity: StoreEntity) {
+        val index = stores.indexOf(storeEntity)
+        if(index != -1){ //El -1 significa que lo ha encontrado.
+            stores.removeAt(index)
+            notifyItemRemoved(index) //Refresca solamente el item que se ha eliminado.
         }
     }
 }
