@@ -17,6 +17,8 @@ class StoreAdapter(private var stores: MutableList<StoreEntity>, private var lis
 
         fun setListener(storeEntity:StoreEntity){
             bindig.root.setOnClickListener{listener.onClick(storeEntity)}
+
+            bindig.cbFavorite.setOnClickListener{listener.onFavoriteStore(storeEntity)}
         }
     }
 
@@ -35,6 +37,7 @@ class StoreAdapter(private var stores: MutableList<StoreEntity>, private var lis
             setListener(store)
 
             bindig.tvName.text = store.name
+            bindig.cbFavorite.isChecked = store.isFavorite
         }
     }
 
@@ -50,5 +53,13 @@ class StoreAdapter(private var stores: MutableList<StoreEntity>, private var lis
     fun setStores(stores: MutableList<StoreEntity>) {
         this.stores = stores
         notifyDataSetChanged()
+    }
+
+    fun update(storeEntity: StoreEntity) {
+        val index = stores.indexOf(storeEntity)
+        if(index != -1){ //El -1 significa que lo ha encontrado.
+            stores.set(index, storeEntity)
+            notifyItemChanged(index) //Refresca solamente el item que se ha actualizado.
+        }
     }
 }
