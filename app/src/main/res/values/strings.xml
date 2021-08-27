@@ -8,4 +8,5 @@
     <string name="hint_name">nombre de la tienda</string>
     <string name="hint_phone">teléfono</string>
     <string name="hint_website">url del sitio web</string>
+    <string name="hint_url_photo">url de la imagen</string>
 </resources>
