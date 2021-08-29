@@ -50,8 +50,12 @@ class StoreAdapter(private var stores: MutableList<StoreEntity>, private var lis
     }
 
     fun add(storeEntity: StoreEntity) {
-        stores.add(storeEntity)
-        notifyDataSetChanged() //El adaptador refresca toda la vista
+        if(!stores.contains(storeEntity)){
+            stores.add(storeEntity)
+            notifyItemInserted(stores.size-1)
+        }
+
+        //notifyDataSetChanged() //El adaptador refresca toda la vista
     }
 
     fun setStores(stores: MutableList<StoreEntity>) {

@@ -49,7 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLength="@integer/counter_max_phone"
-                android:inputType="textCapWords"/>
+                android:inputType="phone"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
