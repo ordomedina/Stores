@@ -9,7 +9,7 @@ interface StoreDao {
     fun getAllStores() : MutableList<StoreEntity>
 
     @Insert
-    fun addStore(storeEntity: StoreEntity): Long
+    fun addStore(storeEntity: StoreEntity): Long //Nos va a devolver el identificador del registro recién creado.
 
     @Update
     fun updateStore(storeEntity: StoreEntity)
