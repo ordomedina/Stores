@@ -19,6 +19,8 @@ class EditStoreFragment : Fragment() {
 
     private lateinit var mBinding: FragmentEditStoreBinding
     private var mActivity: MainActivity? = null
+    private var mIsEditMode: Boolean ? = false
+    private var mStoreEntity: StoreEntity ? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
@@ -31,12 +33,14 @@ class EditStoreFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val id = arguments?.getLong(getString(R.string.arg_id), 0)
-        /*if(id != null && id != 0L){
-            Toast.makeText(activity, id.toString(), Toast.LENGTH_LONG).show()
+        if(id != null && id != 0L){
+            //Toast.makeText(activity, id.toString(), Toast.LENGTH_LONG).show()
+            mIsEditMode = true
+            getStore(id)
         } else {
             Toast.makeText(activity, id.toString(), Toast.LENGTH_LONG).show()
-        }*/
-        Toast.makeText(activity, id.toString(), Toast.LENGTH_LONG).show()
+        }
+
 
         mActivity = activity as? MainActivity// Conseguimos la actividad en la que está alojado el fragment y la casteamos como MainActivity
         mActivity?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -50,6 +54,15 @@ class EditStoreFragment : Fragment() {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .centerCrop()
                 .into(mBinding.imgPhoto)
+        }
+    }
+
+    private fun getStore(id: Long) {
+        doAsync {
+            mStoreEntity = StoreApplication.database.storeDao().getStoreById(id)
+            uiThread {
+               // mBinding.etName.setText(mStoreEntity.name)
+            }
         }
     }
 
