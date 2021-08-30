@@ -60,9 +60,16 @@ class EditStoreFragment : Fragment() {
     private fun getStore(id: Long) {
         doAsync {
             mStoreEntity = StoreApplication.database.storeDao().getStoreById(id)
-            uiThread {
-               // mBinding.etName.setText(mStoreEntity.name)
-            }
+            uiThread {if(mStoreEntity != null) setUiStore(mStoreEntity!!)            }
+        }
+    }
+
+    private fun setUiStore(storeEntity: StoreEntity) {
+        with(mBinding){
+            etName.setText(storeEntity.name)
+            etPhone.setText(storeEntity.phone)
+            etWebsite.setText(storeEntity.website)
+            etPhotoUrl.setText(storeEntity.photoUrl)
         }
     }
 
