@@ -20,7 +20,7 @@ class EditStoreFragment : Fragment() {
 
     private lateinit var mBinding: FragmentEditStoreBinding
     private var mActivity: MainActivity? = null
-    private var mIsEditMode: Boolean ? = false
+    private var mIsEditMode: Boolean  = false
     private var mStoreEntity: StoreEntity ? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -39,7 +39,10 @@ class EditStoreFragment : Fragment() {
             mIsEditMode = true
             getStore(id)
         } else {
-            Toast.makeText(activity, id.toString(), Toast.LENGTH_LONG).show()
+            //Toast.makeText(activity, id.toString(), Toast.LENGTH_LONG).show()
+
+            mIsEditMode = false
+            mStoreEntity = StoreEntity(name = "", phone = "", photoUrl = "")
         }
 
 
@@ -94,19 +97,34 @@ class EditStoreFragment : Fragment() {
                 true
             }
             R.id.action_save -> {
-                val store = StoreEntity(name = mBinding.etName.text.toString().trim(),
+               /* val store = StoreEntity(name = mBinding.etName.text.toString().trim(),
                                 phone = mBinding.etPhone.text.toString().trim(),
                                 website = mBinding.etWebsite.text.toString().trim(),
-                                photoUrl = mBinding.etPhotoUrl.text.toString().trim()
-                )
-                doAsync {
-                    store.id = StoreApplication.database.storeDao().addStore(store)
-                    uiThread {
-                        mActivity?.addStore(store)
-                        hideKeyBoard()
-                      //  Snackbar.make(mBinding.root, "Tienda agregada correctamente", Snackbar.LENGTH_LONG).show()
-                        Toast.makeText(mActivity, R.string.edit_store_message_save_success, Toast.LENGTH_LONG).show()
-                        mActivity?.onBackPressed()
+                                photoUrl = mBinding.etPhotoUrl.text.toString().trim())*/
+
+                if(mStoreEntity != null) {
+                    with(mStoreEntity!!){
+                        name = mBinding.etName.text.toString().trim()
+                        phone = mBinding.etPhone.text.toString().trim()
+                        website = mBinding.etWebsite.text.toString().trim()
+                        photoUrl = mBinding.etPhotoUrl.text.toString().trim()
+                    }
+
+                    doAsync {
+                        if(mIsEditMode) StoreApplication.database.storeDao().updateStore(mStoreEntity!!)
+                        else mStoreEntity!!.id = StoreApplication.database.storeDao().addStore(mStoreEntity!!)
+                        uiThread {
+                            if(mIsEditMode) {
+                                mActivity?.updateStore(mStoreEntity!!)
+                                Snackbar.make(mBinding.root, R.string.edit_store_message_update_success, Snackbar.LENGTH_LONG).show()
+                            } else {
+                                mActivity?.addStore(mStoreEntity!!)
+                                //  Snackbar.make(mBinding.root, "Tienda agregada correctamente", Snackbar.LENGTH_LONG).show()
+                                Toast.makeText(mActivity, R.string.edit_store_message_save_success, Toast.LENGTH_LONG).show()
+                                mActivity?.onBackPressed()
+                            }
+                            hideKeyBoard()
+                        }
                     }
                 }
                 true
