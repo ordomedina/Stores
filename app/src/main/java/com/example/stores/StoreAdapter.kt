@@ -72,7 +72,7 @@ class StoreAdapter(private var stores: MutableList<StoreEntity>, private var lis
 
     fun update(storeEntity: StoreEntity) {
         val index = stores.indexOf(storeEntity)
-        if(index != -1){ //El -1 significa que lo ha encontrado.
+        if(index != -1){ //El -1 significa que no lo ha encontrado.
             stores.set(index, storeEntity)
             notifyItemChanged(index) //Refresca solamente el item que se ha actualizado.
         }
