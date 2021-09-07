@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.stores.databinding.FragmentEditStoreBinding
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputLayout
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
@@ -102,7 +103,7 @@ class EditStoreFragment : Fragment() {
                                 website = mBinding.etWebsite.text.toString().trim(),
                                 photoUrl = mBinding.etPhotoUrl.text.toString().trim())*/
 
-                if(mStoreEntity != null && validateFields()) {
+                if(mStoreEntity != null && validateFields(mBinding.tilPhotoUrl, mBinding.tilPhone, mBinding.tilName)) {
                     with(mStoreEntity!!){
                         name = mBinding.etName.text.toString().trim()
                         phone = mBinding.etPhone.text.toString().trim()
@@ -134,6 +135,21 @@ class EditStoreFragment : Fragment() {
         //return super.onOptionsItemSelected(item)
     }
 
+    private fun validateFields(vararg textFields: TextInputLayout): Boolean {
+        var isValid = true
+
+        for(textField in textFields) {
+            if(textField.editText?.text.toString().trim().isEmpty()) {
+                textField.error = getString(R.string.helper_required)
+                //textField.editText?.requestFocus()
+                isValid = false
+            }
+        }
+        if(!isValid) Snackbar.make(mBinding.root, R.string.edit_store_message_valid, Snackbar.LENGTH_LONG).show()
+
+        return isValid
+    }
+
     private fun validateFields(): Boolean {
         var isValid = true
 
@@ -154,6 +170,9 @@ class EditStoreFragment : Fragment() {
             mBinding.etName.requestFocus() // te da directamente el foco para que puedas escribir.
             isValid = false
         }
+        
+        // El orden de los campos lo hemos puesto a la inversa de como queremos que se nos marque el foco, por ejemplo,
+        //nosotros queremos que el primer foco que se marque sea el nombre, por eso hemos puesto el nombre en último lugar
 
         return isValid
     }
