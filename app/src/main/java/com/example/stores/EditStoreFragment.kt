@@ -46,26 +46,30 @@ class EditStoreFragment : Fragment() {
             mStoreEntity = StoreEntity(name = "", phone = "", photoUrl = "")
         }
 
-
         mActivity = activity as? MainActivity// Conseguimos la actividad en la que está alojado el fragment y la casteamos como MainActivity
         mActivity?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         mActivity?.supportActionBar?.title = getString(R.string.edit_store_title_add)
 
         setHasOptionsMenu(true)// para que se haga con el control del menú
 
-        mBinding.etPhotoUrl.addTextChangedListener {
-            Glide.with(this)
-                .load(mBinding.etPhotoUrl.text.toString())
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .centerCrop()
-                .into(mBinding.imgPhoto)
-        }
+        setupTextFields()
+    }
 
+    private fun setupTextFields() {
         with(mBinding) {
-            etName.addTextChangedListener { validateFields(mBinding.tilName) }
-            etPhone.addTextChangedListener { validateFields(mBinding.tilPhone) }
-            etPhotoUrl.addTextChangedListener { validateFields(mBinding.tilPhotoUrl) }
+            etName.addTextChangedListener { validateFields(tilName) }
+            etPhone.addTextChangedListener { validateFields(tilPhone) }
+            etPhotoUrl.addTextChangedListener { validateFields(tilPhotoUrl)
+                loadImage(it.toString().trim())}
         }
+    }
+
+    private fun loadImage(url: String) {
+        Glide.with(this)
+            .load(url)
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .centerCrop()
+            .into(mBinding.imgPhoto)
     }
 
     private fun getStore(id: Long) {
