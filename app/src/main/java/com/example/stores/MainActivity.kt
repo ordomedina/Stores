@@ -1,5 +1,7 @@
 package com.example.stores
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -100,14 +102,11 @@ class MainActivity : AppCompatActivity(), OnClickListener, MainAux {
                 when(i) {
                     0 -> confirmDelete(storeEntity)
 
-                    1 -> Toast.makeText(this, "Llamar...", Toast.LENGTH_LONG).show()
+                    1 -> dial(storeEntity.phone)
 
                     2 -> Toast.makeText(this, "Sitio web...", Toast.LENGTH_LONG).show()
                 }
             }).show()
-
-
-
     }
 
     private fun confirmDelete(storeEntity: StoreEntity) {
@@ -123,6 +122,14 @@ class MainActivity : AppCompatActivity(), OnClickListener, MainAux {
             })
             .setNegativeButton(R.string.dialog_delete_cancel, null)
             .show()
+    }
+
+    private fun dial(phone: String) {
+        val callIntent = Intent().apply {
+            action = Intent.ACTION_DIAL
+            data = Uri.parse("tel:$phone")
+        }
+        startActivity(callIntent)
     }
 
     //MainAux
