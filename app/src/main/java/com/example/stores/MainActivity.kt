@@ -129,7 +129,7 @@ class MainActivity : AppCompatActivity(), OnClickListener, MainAux {
             action = Intent.ACTION_DIAL
             data = Uri.parse("tel:$phone")
         }
-        if(callIntent.resolveActivity(packageManager) != null) {
+        if(callIntent.resolveActivity(packageManager) != null) {//Esta línea quiere decir que hay disponible una app
             startActivity(callIntent)
         } else {
             Toast.makeText(this, R.string.main_error_no_resolve, Toast.LENGTH_LONG).show()
